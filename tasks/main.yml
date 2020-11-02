@@ -1,0 +1,71 @@
+---
+# tasks file for profile_d
+- name: Make profile.d directory
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.profile.d/"
+    mode: 0700
+    state: directory
+
+- name: Set ~/profile content
+  ansible.builtin.copy:
+    backup: false
+    dest: "{{ ansible_user_dir }}/.profile"
+    mode: 0600
+    src: profile
+
+- name: Copy default profile.d files
+  ansible.builtin.copy:
+    backup: false
+    dest: "{{ ansible_user_dir }}/.profile.d/{{ item }}"
+    mode: 0600
+    src: ".profile.d/{{ item }}"
+  loop:
+    - 00_add_private_bin
+
+
+- name: Configure ZSH
+  block:
+    - name: Ensure ~/.zshrc exists
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.zshrc"
+        state: touch
+    - name: Add bashcompinit for ZSH
+      ansible.builtin.copy:
+        backup: false
+        dest: "{{ ansible_user_dir }}/.profile.d/00_bashcompinit"
+        mode: 0600
+        src: ".profile.d/00_bashcompinit"
+    - name: Amend ~/.zshrc to load ~/.profile.d
+      ansible.builtin.blockinfile:
+        backup: true
+        block: |
+          # Source profile.d files
+          for f in $(ls "$HOME/.profile.d/"); do
+            # Use ls instead of find to avoid relying on external binaries
+            source "$HOME/.profile.d/$f"
+          done
+        insertafter: EOF
+        marker: "# {mark} PROFILE.D BLOCK"
+        path: "{{ ansible_user_dir }}/.zshrc"
+  when: '"zsh" in profile_d_shell'
+
+
+- name: Configure Bash
+  block:
+    - name: Ensure ~/.bashrc exists
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.bashrc"
+        state: touch
+    - name: Amend ~/.bashrc to load ~/.profile.d
+      ansible.builtin.blockinfile:
+        backup: true
+        block: |
+          # Source profile.d files
+          for f in $(ls "$HOME/.profile.d/"); do
+            # Use ls instead of find to avoid relying on external binaries
+            source "$HOME/.profile.d/$f"
+          done
+        insertafter: EOF
+        marker: "# {mark} PROFILE.D BLOCK"
+        path: "{{ ansible_user_dir }}/.bashrc"
+  when: '"bash" in profile_d_shell'

@@ -1,0 +1,3 @@
+---
+# defaults file for profile_d
+profile_d_shell: "{{ ansible_user_shell }}"
