@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Brandon McNama <brandonmcnama@outlook.com>
+  description: Manages the shell profile of the current user using a Debian-like .d directory
+  license: MPL-2.0
+  min_ansible_version: 2.9
+  github_branch: master
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+    - name: MacOS
+      versions:
+        - 10.15
+  galaxy_tags:
+    - shell
+    - profile
+    - bash
+    - zsh
+
+dependencies: []
