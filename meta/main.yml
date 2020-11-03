@@ -1,4 +1,5 @@
 galaxy_info:
+  name: profile_d
   author: Brandon McNama <brandonmcnama@outlook.com>
   description: Manages the shell profile of the current user using a Debian-like .d directory
   license: MPL-2.0

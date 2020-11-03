@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.1.2] - 2020-11-03
+
+### Fixes
+
+* Add `role_name` to Galaxy info to get proper role naming
+
 ## [0.1.1] - 2020-11-03
 
 ### Fixes
