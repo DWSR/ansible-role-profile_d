@@ -10,7 +10,7 @@ galaxy_info:
         - xenial
         - bionic
         - focal
-    - name: MacOS
+    - name: macOS
       versions:
         - 10.15
   galaxy_tags:
