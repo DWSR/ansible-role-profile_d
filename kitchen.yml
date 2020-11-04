@@ -12,6 +12,7 @@ provisioner:
   hosts: test_kitchen
   role_name: profile_d
   ansible_sudo: false
+  idempotency_test: true
   # Don't install via Ansible omnibus
   require_ansible_omnibus: false
   # Don't install via OS package manager. This is broken on Focal
